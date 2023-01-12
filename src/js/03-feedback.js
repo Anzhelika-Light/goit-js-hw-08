@@ -7,13 +7,18 @@ const fillFeedbackFormFields = () => {
     try {
         const userDataFromLocalStorage = JSON.parse(localStorage.getItem('feedback-form-state'));
 
+        // Якщо в localStorage нічого немає
         if (userDataFromLocalStorage === null) {
             return;
         }
     
-        for (const prop in userDataFromLocalStorage) {
-            feedbackFormEl.elements[prop].value = userDataFromLocalStorage[prop];
-        }
+        // Якщо в localStorage є дані, вносимо їх в поля
+            Object.entries(userDataFromLocalStorage).forEach(([name, value]) => {
+            formEl.elements[name].value = value;
+            });
+        // for (const prop in userDataFromLocalStorage) {
+        //     feedbackFormEl.elements[prop].value = userDataFromLocalStorage[prop];
+        // }
     } catch (err) {
         console.log(err);
     }
@@ -40,6 +45,13 @@ const onFeedbackFormItemInput = event => {
 const onContactFormSubmit = event => {
     event.preventDefault();
 
+    if (event.currentTarget.elements.email.value === '' || event.currentTarget.elements.message.value === '') {
+        alert('Усі поля повинні бути заповнені');
+    }
+
+    for (const key in userData) {
+        delete userData[key];
+    };
     feedbackFormEl.reset();
     localStorage.removeItem('feedback-form-state');
     console.log(userData);
