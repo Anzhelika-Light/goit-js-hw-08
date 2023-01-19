@@ -1,7 +1,7 @@
 var throttle = require('lodash.throttle');
 
 const feedbackFormEl = document.querySelector('.feedback-form');
-const userData = {};
+const userData = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
 
 const fillFeedbackFormFields = () => {
     try {
@@ -13,12 +13,9 @@ const fillFeedbackFormFields = () => {
         }
     
         // Якщо в localStorage є дані, вносимо їх в поля
-            Object.entries(userDataFromLocalStorage).forEach(([name, value]) => {
-            formEl.elements[name].value = value;
-            });
-        // for (const prop in userDataFromLocalStorage) {
-        //     feedbackFormEl.elements[prop].value = userDataFromLocalStorage[prop];
-        // }
+        for (const prop in userDataFromLocalStorage) {
+            feedbackFormEl.elements[prop].value = userDataFromLocalStorage[prop];
+        }
     } catch (err) {
         console.log(err);
     }
