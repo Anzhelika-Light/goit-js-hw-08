@@ -34,8 +34,6 @@ const onFeedbackFormItemInput = event => {
 
     userData[name] = value;
 
-    // console.log(userData);
-
     localStorage.setItem('feedback-form-state', JSON.stringify(userData));
 }
 
@@ -45,13 +43,15 @@ const onContactFormSubmit = event => {
     if (event.currentTarget.elements.email.value === '' || event.currentTarget.elements.message.value === '') {
         alert('Усі поля повинні бути заповнені');
     }
+    
+    console.log(userData);
 
     for (const key in userData) {
         delete userData[key];
     };
+
     feedbackFormEl.reset();
     localStorage.removeItem('feedback-form-state');
-    console.log(userData);
 }
 
 feedbackFormEl.addEventListener('input', throttle(onFeedbackFormItemInput, 500));
